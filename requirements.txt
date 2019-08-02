@@ -1,0 +1,2 @@
+-e git+https://github.com/dbluhm/aries-staticagent-python.git@master#egg=aries_staticagent
+aiohttp
