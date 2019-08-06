@@ -111,6 +111,7 @@ class Connections(module.Module):
         # testing the connections protocol.
         self.dispatcher = dispatcher
 
+    @module.route
     async def create_invitation(self, msg, agent):
         """ Create and return an invite. """
         print(msg.pretty_print())
@@ -135,7 +136,8 @@ class Connections(module.Module):
             'routingKeys': []
         })
 
-    async def invitation(self, msg, agent):
+    @module.route
+    async def invitation(self, msg, _agent):
         """ Process an invitation. """
         print(msg.pretty_print())
         their_conn_key = msg['recipientKeys'][0]
@@ -181,7 +183,8 @@ class Connections(module.Module):
 
         new_connection.state.transition(Events.SEND_REQ)
 
-    async def request(self, msg, agent):
+    @module.route
+    async def request(self, msg, _agent):
         """ Process a request. """
         print(msg.pretty_print())
         connection = self.connections[msg.mtc.ad['recip_vk']]
@@ -244,7 +247,8 @@ class Connections(module.Module):
         })
 
 
-    async def response(self, msg, agent):
+    @module.route
+    async def response(self, msg, _agent):
         """ Process a response. """
         print("Got response:", msg.pretty_print())
         their_conn_key = msg['connection~sig']['signer']
@@ -276,7 +280,8 @@ class Connections(module.Module):
         })
 
 
-    async def ack(self, msg, agent):
+    @module.route
+    async def ack(self, msg, _agent):
         """ Process an ack. """
         print(msg.pretty_print())
         connection = self.connections[msg.mtc.ad['recip_vk']]
