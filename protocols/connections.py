@@ -103,6 +103,7 @@ class Connections(module.Module):
     VERSION = '1.0'
 
     def __init__(self, endpoint=None, dispatcher=None, connections=None):
+        super().__init__()
         self.endpoint = endpoint
         self.connections = connections if connections else {}
 
@@ -121,7 +122,7 @@ class Connections(module.Module):
             b'',
             conn_vk,
             conn_sk,
-            self.dispatcher
+            dispatcher=self.dispatcher
         )
         conn_vk_b58 = crypto.bytes_to_b58(conn_vk)
         self.connections[conn_vk_b58] = temp_connection
@@ -147,7 +148,7 @@ class Connections(module.Module):
             msg['recipientKeys'][0],
             my_vk,
             my_sk,
-            self.dispatcher
+            dispatcher=self.dispatcher
         )
         new_connection.did = crypto.bytes_to_b58(my_vk[:16])
         new_connection.vk_b58 = crypto.bytes_to_b58(my_vk)

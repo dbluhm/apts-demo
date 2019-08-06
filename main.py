@@ -42,7 +42,7 @@ def main():
         test_vk,
         subject_vk,
         subject_sk,
-        dispatcher
+        dispatcher=dispatcher
     )
 
     connections = Connections(

@@ -1,6 +1,8 @@
 """ Protocol modules and helpers. """
 import functools
 
+from aries_staticagent.message import Message
+
 class ImpossibleStateTransition(Exception):
     """ When a state transition is impossible given the current state.
     """
