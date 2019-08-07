@@ -28,6 +28,7 @@ def config():
 def main():
     """ Main startup """
     args = config()
+
     test_vk, _test_sk = crypto.create_keypair(
         hashlib.sha256(b'aries-protocol-test-suite').digest()
     )

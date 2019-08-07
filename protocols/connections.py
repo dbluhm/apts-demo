@@ -112,7 +112,7 @@ class Connections(module.Module):
         # testing the connections protocol.
         self.dispatcher = dispatcher
 
-    @module.route
+    @module.route(DOC_URI + 'testing/1.0/create_invitation')
     async def create_invitation(self, msg, agent):
         """ Create and return an invite. """
         print(msg.pretty_print())
