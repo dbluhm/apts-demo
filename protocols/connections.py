@@ -3,9 +3,15 @@
 """
 from enum import Enum, auto
 
-from aries_staticagent import StaticAgentConnection, crypto, module
+from aries_staticagent import (
+    StaticAgentConnection,
+    Module,
+    crypto,
+)
+from aries_staticagent.module import route
 
 from . import ProtocolStateMachine
+
 
 class States(Enum):
     """ Possible states for connection protocol. """
@@ -14,6 +20,7 @@ class States(Enum):
     REQUESTED = auto()
     RESPONDED = auto()
     COMPLETE = auto()
+
 
 class Events(Enum):
     """ Possible events for connection protocol. """
@@ -32,6 +39,7 @@ class Events(Enum):
     # Either
     SEND_ERR = auto()
     RECV_ERR = auto()
+
 
 class Roles(Enum):
     """ Possible roles for connection protocol. """
@@ -96,7 +104,7 @@ class ConnectionState(ProtocolStateMachine):
         self.role = Roles.NULL
 
 
-class Connections(module.Module):
+class Connections(Module):
     """ Module for Connection Protocol """
     DOC_URI = 'did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/'
     PROTOCOL = 'connections'
@@ -112,7 +120,7 @@ class Connections(module.Module):
         # testing the connections protocol.
         self.dispatcher = dispatcher
 
-    @module.route(DOC_URI + 'testing/1.0/create_invitation')
+    @route(protocol='testing', version='1.0', name='create_invitation')
     async def create_invitation(self, msg, agent):
         """ Create and return an invite. """
         print(msg.pretty_print())
@@ -137,7 +145,7 @@ class Connections(module.Module):
             'routingKeys': []
         })
 
-    @module.route
+    @route
     async def invitation(self, msg, _agent):
         """ Process an invitation. """
         print(msg.pretty_print())
@@ -184,7 +192,7 @@ class Connections(module.Module):
 
         new_connection.state.transition(Events.SEND_REQ)
 
-    @module.route
+    @route
     async def request(self, msg, _agent):
         """ Process a request. """
         print(msg.pretty_print())
@@ -248,7 +256,7 @@ class Connections(module.Module):
         })
 
 
-    @module.route
+    @route
     async def response(self, msg, _agent):
         """ Process a response. """
         print("Got response:", msg.pretty_print())
@@ -281,7 +289,7 @@ class Connections(module.Module):
         })
 
 
-    @module.route
+    @route
     async def ack(self, msg, _agent):
         """ Process an ack. """
         print(msg.pretty_print())

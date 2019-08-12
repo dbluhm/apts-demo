@@ -5,8 +5,7 @@ import os
 
 from aiohttp import web
 
-from aries_staticagent import StaticAgentConnection, crypto
-from aries_staticagent.dispatcher import Dispatcher
+from aries_staticagent import StaticAgentConnection, Dispatcher, crypto
 
 from protocols.connections import Connections
 
