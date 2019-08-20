@@ -5,7 +5,8 @@ import os
 
 from aiohttp import web
 
-from aries_staticagent import StaticAgentConnection, Dispatcher, crypto
+from aries_staticagent import StaticConnection, crypto
+from aries_staticagent.dispatcher import Dispatcher
 
 from protocols.connections import Connections
 
@@ -37,11 +38,11 @@ def main():
 
     dispatcher = Dispatcher()
 
-    a = StaticAgentConnection(
-        args.endpoint,
-        test_vk,
+    a = StaticConnection(
         subject_vk,
         subject_sk,
+        test_vk,
+        args.endpoint,
         dispatcher=dispatcher
     )
 

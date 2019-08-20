@@ -4,11 +4,11 @@
 from enum import Enum, auto
 
 from aries_staticagent import (
-    StaticAgentConnection,
+    StaticConnection,
     Module,
+    route,
     crypto,
 )
-from aries_staticagent.module import route
 
 from . import ProtocolStateMachine
 
@@ -125,11 +125,11 @@ class Connections(Module):
         """ Create and return an invite. """
         print(msg.pretty_print())
         conn_vk, conn_sk = crypto.create_keypair()
-        temp_connection = StaticAgentConnection(
-            '',
-            b'',
+        temp_connection = StaticConnection(
             conn_vk,
             conn_sk,
+            b'',
+            '',
             dispatcher=self.dispatcher
         )
         conn_vk_b58 = crypto.bytes_to_b58(conn_vk)
@@ -151,11 +151,11 @@ class Connections(Module):
         print(msg.pretty_print())
         their_conn_key = msg['recipientKeys'][0]
         my_vk, my_sk = crypto.create_keypair()
-        new_connection = StaticAgentConnection(
-            msg['serviceEndpoint'],
-            msg['recipientKeys'][0],
+        new_connection = StaticConnection(
             my_vk,
             my_sk,
+            msg['recipientKeys'][0],
+            msg['serviceEndpoint'],
             dispatcher=self.dispatcher
         )
         new_connection.did = crypto.bytes_to_b58(my_vk[:16])
